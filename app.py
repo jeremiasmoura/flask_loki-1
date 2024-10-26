@@ -73,6 +73,7 @@ def pessoas():
             result = cursor.fetchall()
             return json.dumps([dict(ix) for ix in result]), 200
     except Exception as e:
+        log_message('error', 'This is an ERROR message')
         return jsonify(error=str(e)), 500
 
 @app.route('/pessoa/<cpf>', methods=['GET', 'DELETE'])
@@ -91,6 +92,7 @@ def pessoa_por_cpf(cpf):
                 cursor.execute('DELETE FROM pessoa WHERE cpf = ?', (cpf,))
                 if cursor.rowcount == 0:
                     return jsonify(error="Pessoa não encontrada"), 404
+                    log_message('info', 'This is an INFO message')
                 conn.commit()
                 return jsonify(success="Pessoa deletada com sucesso"), 200
     except Exception as e:
@@ -117,6 +119,7 @@ def insere_atualiza_pessoa():
             conn.commit()
             return jsonify(success="Pessoa inserida com sucesso"), 201
     except Exception as e:
+        log_message('error', 'This is an ERROR message')
         return jsonify(error=str(e)), 500
 
 if __name__ == "__main__":
